@@ -11,7 +11,7 @@ Un proyecto desarrollado en **Spring Boot 3.5.0** con **Java 21** que implementa
 ## 📋 Descripción del Proyecto
 
 ProyectoBDD2 es una aplicación web empresarial que demuestra:
-- **Arquitectura BDD**: Enfoque en el comportamiento del negocio
+- **Clean backend architecture**: Enfoque en el comportamiento del negocio
 - **Persistencia con MongoDB**: Base de datos NoSQL flexible
 - **Caching con Redis**: Mejora de rendimiento y escalabilidad
 - **UI Moderna**: Interfaz reactiva con Vaadin y React
