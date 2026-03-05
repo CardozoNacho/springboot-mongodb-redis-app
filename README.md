@@ -1,5 +1,11 @@
 # ProyectoBDD2 - BDD con MongoDB y Redis
 
+![Java](https://img.shields.io/badge/Java-21-orange)
+![Spring Boot](https://img.shields.io/badge/SpringBoot-Backend-green)
+![MongoDB](https://img.shields.io/badge/MongoDB-NoSQL-green)
+![Redis](https://img.shields.io/badge/Redis-Cache-red)
+![REST API](https://img.shields.io/badge/API-REST-orange)
+
 Un proyecto desarrollado en **Spring Boot 3.5.0** con **Java 21** que implementa patrones BDD (Behavior-Driven Development) utilizando **MongoDB** como base de datos y **Redis** para caching. La interfaz de usuario está construida con **Vaadin 24.7.6** y **React**.
 
 ## 📋 Descripción del Proyecto
