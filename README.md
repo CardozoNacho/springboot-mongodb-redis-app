@@ -1,51 +1,53 @@
-# Reseñas de películas | Spring Boot, MongoDB y Redis
+# Movie Reviews | Spring Boot, MongoDB and Redis
 
-Proyecto académico individual de Carlos Ignacio Cardozo Peragallo. CRUD de reseñas con interfaz Vaadin, endpoints REST y caché Redis. El nombre original `ProyectoBDD2` se conserva en el código; no acredita Behavior-Driven Development.
+[Español](README.es.md)
 
-## Tecnologías y arquitectura
+An individual academic project by Carlos Ignacio Cardozo Peragallo. A review CRUD application with a Vaadin interface, REST endpoints and Redis caching. The original code name `ProyectoBDD2` refers to its academic context, not to Behavior-Driven Development.
 
-Java 21, Spring Boot 3.5.0, Vaadin 24.7.6, Spring Data MongoDB, Spring Cache, Spring Data Redis, Lombok y Maven Wrapper.
+## Stack and architecture
+
+Java 21, Spring Boot 3.5.0, Vaadin 24.7.6, Spring Data MongoDB, Spring Cache, Spring Data Redis, Lombok and Maven Wrapper.
 
 ```text
 REST -> ReviewController -> ReviewService -> ReviewRepository -> MongoDB
-Vaadin -> llamadas Java a ReviewController
-ReviewService -> MovieReviewService -> consulta por película con caché Redis
+Vaadin -> Java method calls to ReviewController
+ReviewService -> MovieReviewService -> cached movie review lookup with Redis
 ```
 
-Las pantallas desarrolladas son vistas Java de Vaadin. Los recursos generados no se presentan como una aplicación React independiente. Los documentos Review se almacenan en `BddCrud.mflix`.
+The UI consists of Java Vaadin views; generated resources do not represent a separate authored React app. Review documents are stored in `BddCrud.mflix`.
 
-## Endpoints reales
+## Implemented endpoints
 
-| Método | Ruta | Operación |
+| Method | Path | Operation |
 |---|---|---|
-| POST | `/api/reviews` | Crear reseña |
-| GET | `/api/reviews/one/{id}` | Consultar reseña por ObjectId |
-| GET | `/api/reviews/movie-by-review/{id}` | Buscar reseñas de la película asociada a esa reseña |
-| PUT | `/api/reviews/{id}` | Guardar reseña con el id indicado |
-| DELETE | `/api/reviews/{id}` | Eliminar reseña |
+| POST | `/api/reviews` | Create a review |
+| GET | `/api/reviews/one/{id}` | Find a review by ObjectId |
+| GET | `/api/reviews/movie-by-review/{id}` | Find reviews of the movie associated with this review |
+| PUT | `/api/reviews/{id}` | Save a review using the supplied id |
+| DELETE | `/api/reviews/{id}` | Delete a review |
 
-El segundo GET recibe el id de una reseña, no el de una película.
+The second GET takes a **review id**, not a movie id.
 
-## Ejecución local
+## Local setup
 
-Requiere JDK 21, MongoDB en `localhost:27017` y Redis en `localhost:6379`. En Windows pueden ejecutarse los servicios de datos con Docker Desktop o WSL; el repositorio no incluye Compose.
+Requires JDK 21, MongoDB at `localhost:27017` and Redis at `localhost:6379`. On Windows, the data services can run through Docker Desktop or WSL. No Compose file is included.
 
 ```bash
 git clone https://github.com/CardozoNacho/springboot-mongodb-redis-app.git
 cd springboot-mongodb-redis-app
 ```
 
-Revisar `src/main/resources/application.properties`. Ejecutar `mvnw.cmd spring-boot:run` en Windows o `./mvnw spring-boot:run` en Linux/macOS. Abrir `http://localhost:8080/create` o `/retrieve`.
+Review `src/main/resources/application.properties`. Run `mvnw.cmd spring-boot:run` on Windows or `./mvnw spring-boot:run` on Linux/macOS. Open `http://localhost:8080/create` or `/retrieve`.
 
-## Límites actuales
+## Current limitations
 
-- `ReviewService.get` cachea reseñas y `MovieReviewService` cachea listas. Actualizar/eliminar invalida toda la región `BddCrud`; crear todavía no invalida listas existentes.
-- Reseñas y listas comparten región y claves basadas en identificadores; pueden colisionar si un id de reseña coincide con un id de película. Conviene separar regiones/claves.
-- `ReviewRepository` declara Integer como tipo genérico de id aunque sus métodos específicos usan ObjectId; queda pendiente unificarlo.
-- La validación de UI no equivale a validación completa de las solicitudes REST. No hay mediciones de rendimiento publicadas.
+- `ReviewService.get` caches individual reviews and `MovieReviewService` caches lists. Updates and deletes clear the entire `BddCrud` region; creating a review does not yet invalidate existing lists.
+- Reviews and lists share the region with identifier-based keys. Keys may collide if a review id matches a movie id; separate regions or keys are needed.
+- `ReviewRepository` declares Integer as its generic id type, although its specific methods use ObjectId. This needs to be unified.
+- UI validation does not provide complete REST request validation. No performance measurements are published.
 
-## Pruebas
+## Tests and verification
 
-`mvnw.cmd test` o `./mvnw test` ejecuta el test de carga de contexto existente. No hay escenarios BDD ni configuración de informe de cobertura. Revisión estática: la ejecución integral debe verificarse con JDK 21 y los servicios disponibles.
+`mvnw.cmd test` or `./mvnw test` runs the existing context-load test. There are no BDD scenarios or configured coverage reports. The documentation was checked against source code; end-to-end execution still needs verification with JDK 21 and the data services running.
 
-No se incluye un archivo de licencia en el repositorio.
+No license file is included in the repository.
